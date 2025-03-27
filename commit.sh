@@ -31,10 +31,15 @@ commitMessages=(
     "Added more tests"
 )
 
-# Create commits for the last 180 days with a random number of commits per day
+# Total days to simulate commits
 days=180
+commitPercentage=92
+commitDays=$(( days * commitPercentage / 100 ))  # Number of days to commit
 
-for ((i=days; i>=0; i--)); do
+# Generate a set of random unique days to commit
+commitDaysSet=($(shuf -i 0-$days -n $commitDays | sort -n))
+
+for i in "${commitDaysSet[@]}"; do
     date=$(date --date="$i days ago" +%Y-%m-%d)
     numCommits=$((RANDOM % 5 + 1))  # Random number of commits (1 to 5 per day)
 
